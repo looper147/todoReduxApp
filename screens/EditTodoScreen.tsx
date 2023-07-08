@@ -21,7 +21,8 @@ const EditTodoScreen = () => {
   const dispatch = useAppDispatch();
   const isFocused = useIsFocused();
   useEffect(() => {
-    if (!isFocused) {
+    //update if change occurs
+    if (!isFocused && todo.text !== editTodo) {
       //if the back button is hit ,save changes
       const id = todo.id;
       dispatch(updateTodo({ id: id, updates: { text: editTodo } }));

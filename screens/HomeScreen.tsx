@@ -94,7 +94,6 @@ const AddTodo = () => {
 type RootStackParamList = {
   Home: undefined;
   EditTodo: { todo: any };
-  // Add other route names and their parameter types if needed
 };
 //list of todos
 const TodoList = () => {

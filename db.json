@@ -1,3 +1,19 @@
 {
-  "todos": []
+  "todos": [
+    {
+      "text": "Brush teeth",
+      "completed": true,
+      "id": 1
+    },
+    {
+      "text": "Make breakfast",
+      "completed": false,
+      "id": 2
+    },
+    {
+      "text": "Go for a walk",
+      "completed": false,
+      "id": 3
+    }
+  ]
 }
