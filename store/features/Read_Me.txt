@@ -1,0 +1,1 @@
+This is the main store divided into slices just like a cake
