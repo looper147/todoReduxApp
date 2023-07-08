@@ -1,3 +1,5 @@
+//npm install react-native-screens react-native-gesture-handler
+
 //redux installation
 //npm install react-redux @reduxjs/toolkit
 

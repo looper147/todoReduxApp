@@ -2008,6 +2008,14 @@
   "resolved" "https://registry.npmjs.org/@react-native/polyfills/-/polyfills-2.0.0.tgz"
   "version" "2.0.0"
 
+"@react-native/virtualized-lists@^0.72.4":
+  "integrity" "sha512-JhT6ydu35LvbSKdwnhWDuGHMOwM0WAh9oza/X8vXHA8ELHRyQ/4p8eKz/bTQcbQziJaaleUURToGhFuCtgiMoA=="
+  "resolved" "https://registry.npmjs.org/@react-native/virtualized-lists/-/virtualized-lists-0.72.6.tgz"
+  "version" "0.72.6"
+  dependencies:
+    "invariant" "^2.2.4"
+    "nullthrows" "^1.1.1"
+
 "@react-navigation/core@^6.4.9":
   "integrity" "sha512-G9GH7bP9x0qqupxZnkSftnkn4JoXancElTvFc8FVGfEvxnxP+gBo3wqcknyBi7M5Vad4qecsYjCOa9wqsftv9g=="
   "resolved" "https://registry.npmjs.org/@react-navigation/core/-/core-6.4.9.tgz"
@@ -2277,6 +2285,14 @@
   "integrity" "sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw=="
   "resolved" "https://registry.npmjs.org/@types/range-parser/-/range-parser-1.2.4.tgz"
   "version" "1.2.4"
+
+"@types/react-native@^0.72.2":
+  "integrity" "sha512-/eEjr04Zqo7mTMszuSdrLx90+j5nWhDMMOgtnKZfAYyV3RwmlpSb7F17ilmMMxZWJY81n/JZ4e6wdhMJFpjrCg=="
+  "resolved" "https://registry.npmjs.org/@types/react-native/-/react-native-0.72.2.tgz"
+  "version" "0.72.2"
+  dependencies:
+    "@react-native/virtualized-lists" "^0.72.4"
+    "@types/react" "*"
 
 "@types/react@*", "@types/react@^16.8 || ^17.0 || ^18.0", "@types/react@~18.0.14":
   "integrity" "sha512-ExsidLLSzYj4cvaQjGnQCk4HFfVT9+EZ9XZsQ8Hsrcn8QNgXtpZ3m9vSIC2MWtx7jHictK6wYhQgGh6ic58oOw=="
@@ -8708,7 +8724,7 @@
     "jscodeshift" "^0.13.1"
     "nullthrows" "^1.1.1"
 
-"react-native-gesture-handler@>= 1.0.0":
+"react-native-gesture-handler@^2.12.0", "react-native-gesture-handler@>= 1.0.0":
   "integrity" "sha512-rr+XwVzXAVpY8co25ukvyI38fKCxTQjz7WajeZktl8qUPdh1twnSExgpT47DqDi4n+m+OiJPAnHfZOkqqAQMOg=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.12.0.tgz"
   "version" "2.12.0"
@@ -8739,7 +8755,7 @@
   "resolved" "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.5.0.tgz"
   "version" "4.5.0"
 
-"react-native-screens@>= 3.0.0":
+"react-native-screens@^3.22.1", "react-native-screens@>= 3.0.0":
   "integrity" "sha512-ffzwUdVKf+iLqhWSzN5DXBm0s2w5sN0P+TaHHPAx42LT7+DT0g8PkHT1QDvxpR5vCEPSS1i3EswyVK4HCuhTYg=="
   "resolved" "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.22.1.tgz"
   "version" "3.22.1"

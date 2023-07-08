@@ -139,11 +139,12 @@ const TodoList = () => {
                   onPress={() => {
                     setComplete(todo.id, !checkedTodos[index]);
                     toggleChecked(index);
+                    console.log(todos[index].completed);
                   }}
                 >
                   <List.Icon
                     icon={
-                      checkedTodos[index]
+                      todos[index]?.completed
                         ? "checkbox-marked"
                         : "checkbox-blank-outline"
                     }
