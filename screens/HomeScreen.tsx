@@ -1,3 +1,4 @@
+import { Swipeable } from "react-native-gesture-handler";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import {
@@ -10,8 +11,14 @@ import {
 import { List, TextInput } from "react-native-paper";
 import { Button, Card } from "react-native-paper";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import { getTodo, saveTodo, updateTodo } from "../store/features/todoSlice";
+import {
+  deleteTodo,
+  getTodo,
+  saveTodo,
+  updateTodo,
+} from "../store/features/todoSlice";
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 const AddTodo = () => {
   const [newTodo, setNewTodo] = useState("");
@@ -84,65 +91,97 @@ const AddTodo = () => {
   );
 };
 
+type RootStackParamList = {
+  Home: undefined;
+  EditTodo: { todo: any };
+  // Add other route names and their parameter types if needed
+};
 //list of todos
 const TodoList = () => {
   //in order to fetch our list of todos from our store,we have to use `use` app selector
   const todos = useAppSelector((state) => state.todo.todos);
 
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const setComplete = (id: number, complete: boolean) => {
     dispatch(updateTodo({ id: id, updates: { completed: complete } }));
   };
 
+  const handleDelete = (id: number) => {
+    console.log("Delete clicked");
+    dispatch(deleteTodo(id));
+  };
   const renderTodoCard = (todo: any, index: number) => {
     const handleTodoPress = () => {
       console.log("todo pressed");
       //pass the selected todo item as a parameter when navigating to the "Edit todo" screen
-      navigation.navigate("Edit todo" as never, { todo });
+      navigation.navigate("EditTodo", { todo });
     };
     return (
-      <View key={index} style={{ margin: 10 }}>
-        <Card mode="elevated" key={index}>
-          <Card.Content>
-            {/*nested card*/}
-            <List.Item
-              style={{ padding: 20 }}
-              title={
-                <>
-                  <TouchableOpacity onPress={handleTodoPress}>
-                    <Text
-                      style={
-                        todo.completed ? styles.strikethrough : styles.todoText
+      <Swipeable
+        key={index}
+        renderRightActions={() => (
+          <View
+            style={{
+              // backgroundColor: "red",
+              justifyContent: "center",
+              alignItems: "flex-end",
+            }}
+          >
+            <Button
+              mode="text"
+              textColor="red"
+              onPress={() => handleDelete(todo.id)}
+            >
+              Delete
+            </Button>
+          </View>
+        )}
+      >
+        <View key={index} style={{ margin: 10 }}>
+          <Card mode="elevated" key={index}>
+            <Card.Content>
+              {/*nested card*/}
+              <List.Item
+                style={{ padding: 20 }}
+                title={
+                  <>
+                    <TouchableOpacity onPress={handleTodoPress}>
+                      <Text
+                        style={
+                          todo.completed
+                            ? styles.strikethrough
+                            : styles.todoText
+                        }
+                      >
+                        {todo.text}
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                }
+                right={() => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      // toggleChecked(index);
+                      setComplete(todo.id, !todo.completed);
+                      console.log(`todo.completed: ${todo.completed}`);
+                    }}
+                  >
+                    <List.Icon
+                      icon={
+                        todos[index]?.completed
+                          ? "checkbox-marked"
+                          : "checkbox-blank-outline"
                       }
-                    >
-                      {todo.text}
-                    </Text>
+                    />
                   </TouchableOpacity>
-                </>
-              }
-              right={() => (
-                <TouchableOpacity
-                  onPress={() => {
-                    // toggleChecked(index);
-                    setComplete(todo.id, !todo.completed);
-                    console.log(`todo.completed: ${todo.completed}`);
-                  }}
-                >
-                  <List.Icon
-                    icon={
-                      todos[index]?.completed
-                        ? "checkbox-marked"
-                        : "checkbox-blank-outline"
-                    }
-                  />
-                </TouchableOpacity>
-              )}
-            />
-          </Card.Content>
-        </Card>
-      </View>
+                )}
+              />
+            </Card.Content>
+          </Card>
+        </View>
+      </Swipeable>
     );
   };
 

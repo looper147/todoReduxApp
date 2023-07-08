@@ -1,9 +1,3 @@
 {
-  "todos": [
-    {
-      "text": "Make bed",
-      "completed": false,
-      "id": 1
-    }
-  ]
+  "todos": []
 }

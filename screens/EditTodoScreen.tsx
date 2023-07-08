@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { useAppDispatch, useAppSelector } from "../store/store";
+import { useAppDispatch } from "../store/store";
 import { TextInput } from "react-native-paper";
 import { useEffect, useState } from "react";
 
@@ -8,9 +8,9 @@ import { useRoute, useIsFocused } from "@react-navigation/native";
 import { updateTodo } from "../store/features/todoSlice";
 
 interface Todo {
+  text: string;
   completed: boolean;
   id: number;
-  text: string;
 }
 const EditTodoScreen = () => {
   // const todos = useAppSelector((state) => state.todo.todos);

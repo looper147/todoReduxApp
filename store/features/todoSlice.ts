@@ -60,6 +60,18 @@ export const updateTodo = createAsyncThunk(
   }
 );
 
+export const deleteTodo = createAsyncThunk(
+  "todo/delete",
+  async (id: number) => {
+    try {
+      const response = await axios.delete(`${BASE_URL_API}/todos/${id}`);
+      console.log(response.data);
+      return id;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
 //function that comes with reduxjs-toolkit
 export const TodoSlice = createSlice({
   name: "todo", //slice name
@@ -104,6 +116,12 @@ export const TodoSlice = createSlice({
       if (index !== -1) {
         state.todos[index] = updatedTodo;
       }
+    });
+    builder.addCase(deleteTodo.fulfilled, (state, action) => {
+      const id = action.payload;
+      console.log(id);
+
+      state.todos = state.todos.filter((todo) => todo.id !== id);
     });
   },
 });

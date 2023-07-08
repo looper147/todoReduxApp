@@ -32,7 +32,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Edit todo" component={EditTodoScreen} />
+            <Stack.Screen name="EditTodo" component={EditTodoScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
