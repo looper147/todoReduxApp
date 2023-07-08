@@ -1,10 +1,11 @@
 import { View } from "react-native";
-import { useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/store";
 import { TextInput } from "react-native-paper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //to access passed todo object from the home screen
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useIsFocused } from "@react-navigation/native";
+import { updateTodo } from "../store/features/todoSlice";
 
 interface Todo {
   completed: boolean;
@@ -16,7 +17,16 @@ const EditTodoScreen = () => {
   const route = useRoute();
   const todo = route.params?.todo as Todo;
   const [editTodo, setEditTodo] = useState(todo?.text || "");
-  console.log(todo);
+
+  const dispatch = useAppDispatch();
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (!isFocused) {
+      //if the back button is hit ,save changes
+      const id = todo.id;
+      dispatch(updateTodo({ id: id, updates: { text: editTodo } }));
+    }
+  }, [isFocused]);
   return (
     <View style={{ padding: 10, margin: 10 }}>
       <TextInput
