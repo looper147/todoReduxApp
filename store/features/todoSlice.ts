@@ -47,16 +47,15 @@ export const updateTodo = createAsyncThunk(
 
   async ({ id, updates }: { id: number; updates: Partial<Todo> }) => {
     try {
-      console.log("Entered updateTodo thunk");
-      console.log("id:", id);
-      console.log("updates:", updates);
       const response = await axios.patch(
         `${BASE_URL_API}/todos/${id}`,
         updates
       );
-      console.log(response.data);
+      console.log(`updates: ${updates.completed}`);
+      return response.data;
     } catch (error) {
       console.error(error);
+      throw error;
     }
   }
 );
@@ -100,7 +99,7 @@ export const TodoSlice = createSlice({
     });
     builder.addCase(updateTodo.fulfilled, (state, action) => {
       const updatedTodo = action.payload;
-      console.log(updatedTodo);
+      // console.log(updatedTodo);
       const index = state.todos.findIndex((todo) => todo.id === updatedTodo.id);
       if (index !== -1) {
         state.todos[index] = updatedTodo;

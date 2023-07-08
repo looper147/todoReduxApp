@@ -2,7 +2,7 @@
   "todos": [
     {
       "text": "don't make bed",
-      "completed": false,
+      "completed": true,
       "id": 1
     }
   ]

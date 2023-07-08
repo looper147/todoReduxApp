@@ -90,19 +90,9 @@ const TodoList = () => {
   const todos = useAppSelector((state) => state.todo.todos);
 
   const dispatch = useAppDispatch();
-  //empty array to store checked state for each todo item in the list
-  const [checkedTodos, setCheckedTodos] = useState<Array<boolean>>([]);
   const navigation = useNavigation();
 
-  const toggleChecked = (index: number) => {
-    const updatedCheckedTodos = [...checkedTodos];
-    updatedCheckedTodos[index] = !updatedCheckedTodos[index];
-    setCheckedTodos(updatedCheckedTodos);
-  };
-
   const setComplete = (id: number, complete: boolean) => {
-    console.log("check");
-
     dispatch(updateTodo({ id: id, updates: { completed: complete } }));
   };
 
@@ -124,9 +114,7 @@ const TodoList = () => {
                   <TouchableOpacity onPress={handleTodoPress}>
                     <Text
                       style={
-                        checkedTodos[index]
-                          ? styles.strikethrough
-                          : styles.todoText
+                        todo.completed ? styles.strikethrough : styles.todoText
                       }
                     >
                       {todo.text}
@@ -137,9 +125,9 @@ const TodoList = () => {
               right={() => (
                 <TouchableOpacity
                   onPress={() => {
-                    setComplete(todo.id, !checkedTodos[index]);
-                    toggleChecked(index);
-                    console.log(todos[index].completed);
+                    // toggleChecked(index);
+                    setComplete(todo.id, !todo.completed);
+                    console.log(`todo.completed: ${todo.completed}`);
                   }}
                 >
                   <List.Icon
