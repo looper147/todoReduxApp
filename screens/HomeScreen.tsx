@@ -101,8 +101,9 @@ const TodoList = () => {
 
   const renderTodoCard = (todo: any, index: number) => {
     const handleTodoPress = () => {
+      console.log("todo pressed");
       //pass the selected todo item as a parameter when navigating to the "Edit todo" screen
-      navigation.navigate("Edit todo" as never);
+      navigation.navigate("Edit todo", { todo });
     };
     return (
       <View key={index} style={{ margin: 10 }}>
@@ -150,7 +151,7 @@ const TodoList = () => {
         <Card.Title title="Todos" titleVariant="titleLarge" />
         <Card.Content>
           {/*nested card*/}
-          {todos.map(renderTodoCard)}
+          {todos.map((todo: any, index: number) => renderTodoCard(todo, index))}
         </Card.Content>
       </Card>
     </View>
