@@ -43,7 +43,7 @@ const AddTodo = () => {
         dispatch(saveTodo(newTodo));
       } else {
         setValidTodo(false);
-        setHelperText("Must contain at least 4 characters");
+        setHelperText("Must be at least 4 characters long");
       }
     } else {
       setValidTodo(false);
