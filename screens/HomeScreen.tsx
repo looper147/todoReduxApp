@@ -89,6 +89,7 @@ const TodoList = () => {
   //in order to fetch our list of todos from our store,we have to use `use` app selector
   const todos = useAppSelector((state) => state.todo.todos);
 
+  const dispatch = useAppDispatch();
   //empty array to store checked state for each todo item in the list
   const [checkedTodos, setCheckedTodos] = useState<Array<boolean>>([]);
   const navigation = useNavigation();
@@ -102,7 +103,7 @@ const TodoList = () => {
   const setComplete = (id: number, complete: boolean) => {
     console.log("check");
 
-    // updateTodo({ id: id, updates: complete });
+    dispatch(updateTodo({ id: id, updates: { completed: complete } }));
   };
 
   const renderTodoCard = (todo: any, index: number) => {
@@ -136,8 +137,8 @@ const TodoList = () => {
               right={() => (
                 <TouchableOpacity
                   onPress={() => {
+                    setComplete(todo.id, !checkedTodos[index]);
                     toggleChecked(index);
-                    setComplete(todo.id, checkedTodos[index]);
                   }}
                 >
                   <List.Icon

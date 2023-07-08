@@ -46,14 +46,13 @@ export const updateTodo = createAsyncThunk(
   "todo/update",
 
   async ({ id, updates }: { id: number; updates: any }) => {
-    console.log("entered");
-
     try {
+      console.log(updates);
       const response = await axios.patch(
         `${BASE_URL_API}/todos/${id}`,
         updates
       );
-      console.log(response);
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
