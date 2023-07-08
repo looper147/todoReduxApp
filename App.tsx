@@ -1,4 +1,4 @@
-//npm install react-native-screens react-native-gesture-handler
+// npx expo install react-native-gesture-handler@~2.9.0 react-native-screens@~3.20.0
 
 //redux installation
 //npm install react-redux @reduxjs/toolkit
