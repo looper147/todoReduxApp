@@ -6,6 +6,7 @@ const BASE_URL_API = "http://192.168.0.112:3000";
 export interface Todo {
   id: number;
   text: string;
+  completed: boolean;
 }
 
 //structure of the state of this slice
@@ -28,9 +29,34 @@ export const getTodo = createAsyncThunk("todo/get", async (thunkAPI) => {
 export const saveTodo = createAsyncThunk(
   "todo/save",
   async (text: string, thunkAPI) => {
-    const response = await axios.post(`${BASE_URL_API}/todos`, { text });
-    const data = await response.data;
-    return data;
+    try {
+      const response = await axios.post(`${BASE_URL_API}/todos`, {
+        text,
+        completed: false,
+      });
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+
+export const updateTodo = createAsyncThunk(
+  "todo/update",
+
+  async ({ id, updates }: { id: number; updates: any }) => {
+    console.log("entered");
+
+    try {
+      const response = await axios.patch(
+        `${BASE_URL_API}/todos/${id}`,
+        updates
+      );
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   }
 );
 
@@ -42,12 +68,16 @@ export const TodoSlice = createSlice({
   //object that contains our actions, actions are functions that can mutate our state
   reducers: {
     //add todo action to add a new todo to our todo list
-    addTodo: (state, action: PayloadAction<{ text: string }>) => {
+    addTodo: (
+      state,
+      action: PayloadAction<{ text: string; completed: boolean }>
+    ) => {
       //payLoadAction that comes from redux toolkit to define the type of parameter to pass through this action
       state.todos.push({
         //like this we insert a new todo in our redux store
         id: state.todos.length,
         text: action.payload.text,
+        completed: false,
       });
     },
   },
@@ -67,6 +97,14 @@ export const TodoSlice = createSlice({
     builder.addCase(saveTodo.fulfilled, (state, action) => {
       state.todos.push(action.payload);
     });
+    // builder.addCase(updateTodo.fulfilled, (state, action) => {
+    //   const updatedTodo = action.payload;
+    //   console.log(updateTodo);
+    //   const index = state.todos.findIndex((todo) => todo.id === updatedTodo.id);
+    //   if (index !== -1) {
+    //     state.todos[index] = updateTodo;
+    //   }
+    // });
   },
 });
 

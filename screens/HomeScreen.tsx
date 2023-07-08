@@ -10,7 +10,7 @@ import {
 import { List, TextInput } from "react-native-paper";
 import { Button, Card } from "react-native-paper";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import { getTodo, saveTodo } from "../store/features/todoSlice";
+import { getTodo, saveTodo, updateTodo } from "../store/features/todoSlice";
 import { useNavigation } from "@react-navigation/native";
 
 const AddTodo = () => {
@@ -99,11 +99,17 @@ const TodoList = () => {
     setCheckedTodos(updatedCheckedTodos);
   };
 
+  const setComplete = (id: number, complete: boolean) => {
+    console.log("check");
+
+    // updateTodo({ id: id, updates: complete });
+  };
+
   const renderTodoCard = (todo: any, index: number) => {
     const handleTodoPress = () => {
       console.log("todo pressed");
       //pass the selected todo item as a parameter when navigating to the "Edit todo" screen
-      navigation.navigate("Edit todo", { todo });
+      navigation.navigate("Edit todo" as never, { todo });
     };
     return (
       <View key={index} style={{ margin: 10 }}>
@@ -128,7 +134,12 @@ const TodoList = () => {
                 </>
               }
               right={() => (
-                <TouchableOpacity onPress={() => toggleChecked(index)}>
+                <TouchableOpacity
+                  onPress={() => {
+                    toggleChecked(index);
+                    setComplete(todo.id, checkedTodos[index]);
+                  }}
+                >
                   <List.Icon
                     icon={
                       checkedTodos[index]

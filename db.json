@@ -1,30 +1,9 @@
 {
   "todos": [
     {
-      "id": 1,
-      "text": "Make breakfast",
-      "completed": true
-    },
-    {
-      "id": 2,
-      "text": "Go for a run",
-      "completed": false
-    },
-    {
-      "text": "Make pizza",
-      "id": 3
-    },
-    {
-      "text": "Make desert",
-      "id": 4
-    },
-    {
-      "text": "Make food",
-      "id": 5
-    },
-    {
-      "text": "Make dinner",
-      "id": 6
+      "text": "don't make bed",
+      "completed": true,
+      "id": 1
     }
   ]
 }
