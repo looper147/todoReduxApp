@@ -1,4 +1,10 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  isPending,
+  isRejected,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 //npm install axios
 import axios from "axios";
 
@@ -107,42 +113,40 @@ export const TodoSlice = createSlice({
     3) error state, when async function inside the thunk returned with an error
     */
 
+    //pending matcher for the builders
+    builder.addMatcher(
+      isPending(getTodo, saveTodo, updateTodo, deleteTodo),
+      (state) => {
+        state.loading = true;
+        state.error = null;
+      }
+    );
+
+    //rejected matcher for the builders
+    builder.addMatcher(
+      isRejected(getTodo, saveTodo, updateTodo, deleteTodo),
+      (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+        console.log(state.error);
+      }
+    );
+
     //get todo builder
-    builder.addCase(getTodo.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
     builder.addCase(getTodo.fulfilled, (state, action) => {
       state.loading = false;
       state.todos = action.payload; // this payload is the actual todos that has been returned by the async function
     });
-    builder.addCase(getTodo.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-      console.log(state.error);
-    });
 
     //save todo builder
-    builder.addCase(saveTodo.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
+
     builder.addCase(saveTodo.fulfilled, (state, action) => {
       state.todos.push(action.payload);
       state.loading = false;
       state.error = null;
     });
-    builder.addCase(saveTodo.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-      console.log(state.error);
-    });
-
     //update todo builder
-    builder.addCase(updateTodo.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
+
     builder.addCase(updateTodo.fulfilled, (state, action) => {
       state.loading = false;
       const updatedTodo = action.payload;
@@ -152,26 +156,14 @@ export const TodoSlice = createSlice({
         state.todos[index] = updatedTodo;
       }
     });
-    builder.addCase(updateTodo.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    });
-
     //delete todo builder
-    builder.addCase(deleteTodo.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
+
     builder.addCase(deleteTodo.fulfilled, (state, action) => {
       state.loading = false;
       const id = action.payload;
       console.log(id);
 
       state.todos = state.todos.filter((todo) => todo.id !== id);
-    });
-    builder.addCase(deleteTodo.rejected, (state, action) => {
-      state.error = action.error.message;
-      state.loading = false;
     });
   },
 });
