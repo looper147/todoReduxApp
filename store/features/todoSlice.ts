@@ -113,25 +113,6 @@ export const TodoSlice = createSlice({
     3) error state, when async function inside the thunk returned with an error
     */
 
-    //pending matcher for the builders
-    builder.addMatcher(
-      isPending(getTodo, saveTodo, updateTodo, deleteTodo),
-      (state) => {
-        state.loading = true;
-        state.error = null;
-      }
-    );
-
-    //rejected matcher for the builders
-    builder.addMatcher(
-      isRejected(getTodo, saveTodo, updateTodo, deleteTodo),
-      (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-        console.log(state.error);
-      }
-    );
-
     //get todo builder
     builder.addCase(getTodo.fulfilled, (state, action) => {
       state.loading = false;
@@ -165,6 +146,25 @@ export const TodoSlice = createSlice({
 
       state.todos = state.todos.filter((todo) => todo.id !== id);
     });
+
+    //pending matcher for the builders
+    builder.addMatcher(
+      isPending(getTodo, saveTodo, updateTodo, deleteTodo),
+      (state) => {
+        state.loading = true;
+        state.error = null;
+      }
+    );
+
+    //rejected matcher for the builders
+    builder.addMatcher(
+      isRejected(getTodo, saveTodo, updateTodo, deleteTodo),
+      (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+        console.log(state.error);
+      }
+    );
   },
 });
 
