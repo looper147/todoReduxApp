@@ -16,11 +16,11 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { StyleSheet } from "react-native";
 import HomeScreen from "./screens/HomeScreen";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+//screebs
 import EditTodoScreen from "./screens/EditTodoScreen";
 
 const Stack = createStackNavigator();
@@ -39,11 +39,3 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

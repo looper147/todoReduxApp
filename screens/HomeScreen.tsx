@@ -200,7 +200,7 @@ const HomeScreen = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getTodo());
-  });
+  }, []);
   return (
     <ScrollView>
       <View style={{ flex: 1, padding: 10, margin: 10 }}>
