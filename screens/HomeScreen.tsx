@@ -7,6 +7,7 @@ import {
   View,
   StyleSheet,
   ScrollView,
+  I18nManager,
 } from "react-native";
 import { List, TextInput } from "react-native-paper";
 import { Button, Card } from "react-native-paper";
@@ -19,8 +20,13 @@ import {
 } from "../store/features/todoSlice";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { i18n, textDirection } from "../services/i18n/i18n";
 
+const switchLang = () => {
+  i18n.locale = "ar";
+};
 const AddTodo = () => {
+  console.log(textDirection);
   const [newTodo, setNewTodo] = useState("");
   const [validTodo, setValidTodo] = useState(true);
   const [helperText, setHelperText] = useState("");
@@ -30,6 +36,7 @@ const AddTodo = () => {
   const dispatch = useAppDispatch();
   const handleNewTodo = () => {
     setEditMode(!editMode);
+    switchLang();
   };
 
   const handleCancel = () => {
@@ -50,39 +57,51 @@ const AddTodo = () => {
         dispatch(saveTodo(newTodo));
       } else {
         setValidTodo(false);
-        setHelperText("Must be at least 4 characters long");
+        setHelperText(i18n.t("homeScreen.helperText.shortError"));
       }
     } else {
       setValidTodo(false);
-      setHelperText("Cannot add empty todo");
+      setHelperText(i18n.t("homeScreen.helperText.emptyError"));
     }
   };
 
   return (
-    <Card mode="elevated">
-      <Card.Title title="Add a new to do" titleVariant="titleLarge" />
+    <Card
+      mode="elevated"
+      contentStyle={{ direction: textDirection === "ltr" ? "ltr" : "rtl" }}
+    >
+      <Card.Title
+        title={i18n.t("homeScreen.newTodo.title")}
+        titleVariant="titleLarge"
+      />
       <Card.Content>
+        <Text>{I18nManager.isRTL ? " RTL" : " LTR"}</Text>
         <TextInput
           mode="outlined"
           disabled={!editMode}
-          label={!validTodo ? helperText : "New todo"}
+          label={!validTodo ? helperText : i18n.t("homeScreen.newTodo.addBtn")}
           value={newTodo}
           onChangeText={(todo) => setNewTodo(todo)}
           error={!validTodo}
+          style={{
+            textAlign: textDirection === "ltr" ? "left" : "right",
+          }}
         />
       </Card.Content>
-      <Card.Actions>
+      <Card.Actions
+        style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
+      >
         {!editMode ? (
           <Button onPress={handleNewTodo}>
-            <Text>New todo</Text>
+            <Text>{i18n.t("homeScreen.newTodo.addBtn")}</Text>
           </Button>
         ) : (
           <>
             <Button onPress={handleCancel} mode="outlined">
-              <Text>Cancel</Text>
+              <Text>{i18n.t("homeScreen.newTodo.cancelBtn")}</Text>
             </Button>
             <Button mode="contained" onPress={handleConfirm}>
-              <Text>Confirm</Text>
+              <Text>{i18n.t("homeScreen.newTodo.confirmBtn")}</Text>
             </Button>
           </>
         )}
@@ -97,6 +116,7 @@ type RootStackParamList = {
 };
 //list of todos
 const TodoList = () => {
+  const isRTL = textDirection === "rtl";
   //in order to fetch our list of todos from our store,we have to use `use` app selector
   const todos = useAppSelector((state) => state.todo.todos);
 
@@ -118,27 +138,63 @@ const TodoList = () => {
       navigation.navigate("EditTodo", { todo });
     };
     return (
+      //todo item
       <Swipeable
         key={index}
-        renderRightActions={() => (
-          <View
-            style={{
-              // backgroundColor: "red",
-              justifyContent: "center",
-              alignItems: "flex-end",
-            }}
-          >
-            <Button
-              mode="text"
-              textColor="red"
-              onPress={() => handleDelete(todo.id)}
-            >
-              Delete
-            </Button>
-          </View>
-        )}
+        renderLeftActions={() => {
+          if (isRTL) {
+            return (
+              <View
+                style={{
+                  // backgroundColor: "red",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  mode="text"
+                  textColor="red"
+                  onPress={() => handleDelete(todo.id)}
+                >
+                  {i18n.t("homeScreen.todoList.deleteBtn")}
+                </Button>
+              </View>
+            );
+          } else {
+            return null;
+          }
+        }}
+        renderRightActions={() => {
+          if (!isRTL) {
+            return (
+              <View
+                style={{
+                  // backgroundColor: "red",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  mode="text"
+                  textColor="red"
+                  onPress={() => handleDelete(todo.id)}
+                >
+                  {i18n.t("homeScreen.todoList.deleteBtn")}
+                </Button>
+              </View>
+            );
+          } else {
+            return null;
+          }
+        }}
       >
-        <View key={index} style={{ margin: 10 }}>
+        <View
+          key={index}
+          style={{
+            margin: 10,
+            direction: textDirection === "ltr" ? "ltr" : "rtl",
+          }}
+        >
           <Card mode="elevated" key={index}>
             <Card.Content>
               {/*nested card*/}
@@ -146,7 +202,14 @@ const TodoList = () => {
                 style={{ padding: 20 }}
                 title={
                   <>
-                    <TouchableOpacity onPress={handleTodoPress}>
+                    <TouchableOpacity
+                      onPress={handleTodoPress}
+                      style={{
+                        justifyContent: "flex-start",
+                        alignItems: "flex-start",
+                        width: "220%",
+                      }}
+                    >
                       <Text
                         style={
                           todo.completed
@@ -162,7 +225,6 @@ const TodoList = () => {
                 right={() => (
                   <TouchableOpacity
                     onPress={() => {
-                      // toggleChecked(index);
                       setComplete(todo.id, !todo.completed);
                       console.log(`todo.completed: ${todo.completed}`);
                     }}
@@ -187,7 +249,10 @@ const TodoList = () => {
   return (
     <View style={{ marginTop: 30 }}>
       <Card mode="outlined">
-        <Card.Title title="Todos" titleVariant="titleLarge" />
+        <Card.Title
+          title={i18n.t("homeScreen.todoList.title")}
+          titleVariant="titleLarge"
+        />
         <Card.Content>
           {/*nested card*/}
           {todos.map((todo: any, index: number) => renderTodoCard(todo, index))}
@@ -203,7 +268,13 @@ const HomeScreen = () => {
   }, []);
   return (
     <ScrollView>
-      <View style={{ flex: 1, padding: 10, margin: 10 }}>
+      <View
+        style={{
+          flex: 1,
+          padding: 10,
+          margin: 10,
+        }}
+      >
         <AddTodo />
 
         <TodoList />

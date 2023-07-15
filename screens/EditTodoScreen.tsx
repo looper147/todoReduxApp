@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 //to access passed todo object from the home screen
 import { useRoute, useIsFocused } from "@react-navigation/native";
 import { updateTodo } from "../store/features/todoSlice";
+import { textDirection } from "../services/i18n/i18n";
 
 interface Todo {
   text: string;
@@ -34,7 +35,11 @@ const EditTodoScreen = () => {
         value={editTodo}
         onChangeText={setEditTodo}
         mode="flat"
-        style={{ fontSize: 20, padding: 100 }}
+        style={{
+          fontSize: 20,
+          padding: 100,
+          textAlign: textDirection === "ltr" ? "left" : "right",
+        }}
       />
     </View>
   );

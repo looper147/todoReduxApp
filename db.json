@@ -14,6 +14,11 @@
       "text": "Go for a walk",
       "completed": false,
       "id": 3
+    },
+    {
+      "text": "ادرس الرياضيات",
+      "completed": false,
+      "id": 4
     }
   ]
 }

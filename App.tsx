@@ -22,6 +22,7 @@ import { Provider } from "react-redux";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 //screebs
 import EditTodoScreen from "./screens/EditTodoScreen";
+import { i18n } from "./services/i18n/i18n";
 
 const Stack = createStackNavigator();
 
@@ -31,8 +32,21 @@ export default function App() {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="EditTodo" component={EditTodoScreen} />
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{
+                title: i18n.t("homeScreen.title"),
+              }}
+            />
+            <Stack.Screen
+              name="EditTodo"
+              component={EditTodoScreen}
+              options={{
+                title: i18n.t("editScreen.title"),
+                headerStyle: { flexDirection: "row-reverse" },
+              }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

@@ -1,5 +1,8 @@
 {
   "expo": {
+    "extra": {
+      "supportsRTL": true
+    },
     "name": "todoReduxApp",
     "slug": "todoReduxApp",
     "version": "1.0.0",
@@ -11,9 +14,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -25,6 +26,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": ["expo-localization"]
   }
 }
