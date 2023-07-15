@@ -12,20 +12,24 @@
 
 //react navigation
 //npm install @react-navigation/native @react-navigation/stack
-
+import "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import HomeScreen from "./screens/HomeScreen";
+//redux
 import { store } from "./store/store";
 import { Provider } from "react-redux";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-//screebs
+
+//screens
+import HomeScreen from "./screens/HomeScreen";
 import EditTodoScreen from "./screens/EditTodoScreen";
+
+//internationalization
 import { i18n } from "./services/i18n/i18n";
 
+//nav stack
 const Stack = createStackNavigator();
-
 export default function App() {
   return (
     <SafeAreaProvider>
@@ -37,6 +41,7 @@ export default function App() {
               component={HomeScreen}
               options={{
                 title: i18n.t("homeScreen.title"),
+                headerShown: false,
               }}
             />
             <Stack.Screen
@@ -44,7 +49,7 @@ export default function App() {
               component={EditTodoScreen}
               options={{
                 title: i18n.t("editScreen.title"),
-                headerStyle: { flexDirection: "row-reverse" },
+                // headerStyle: { flexDirection: "row-reverse" },
               }}
             />
           </Stack.Navigator>

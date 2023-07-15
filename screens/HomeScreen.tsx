@@ -9,8 +9,9 @@ import {
   ScrollView,
   I18nManager,
 } from "react-native";
-import { List, TextInput } from "react-native-paper";
+import { Appbar, List, Switch, TextInput } from "react-native-paper";
 import { Button, Card } from "react-native-paper";
+//imported action dispatcher and selector
 import { useAppDispatch, useAppSelector } from "../store/store";
 import {
   deleteTodo,
@@ -18,15 +19,18 @@ import {
   saveTodo,
   updateTodo,
 } from "../store/features/todoSlice";
+
+//navigation tools
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { i18n, textDirection } from "../services/i18n/i18n";
 
-const switchLang = () => {
-  i18n.locale = "ar";
+//internationalization tools
+import { i18n, setLanguage, textDirection } from "../services/i18n/i18n";
+
+const changeLanguage = (lang: string) => {
+  setLanguage(lang);
 };
 const AddTodo = () => {
-  console.log(textDirection);
   const [newTodo, setNewTodo] = useState("");
   const [validTodo, setValidTodo] = useState(true);
   const [helperText, setHelperText] = useState("");
@@ -58,10 +62,10 @@ const AddTodo = () => {
       } else {
         setValidTodo(false);
         setHelperText(
-          i18n.t("homeScreen.helperText.shortError", { minLength: 5 })
+          i18n.t("homeScreen.helperText.shortError", { minLength: 4 })
         );
         console.log(
-          i18n.t("homeScreen.helperText.shortError", { minLength: 5 })
+          i18n.t("homeScreen.helperText.shortError", { minLength: 4 })
         );
       }
     } else {
@@ -80,7 +84,7 @@ const AddTodo = () => {
         titleVariant="titleLarge"
       />
       <Card.Content>
-        <Text>{I18nManager.isRTL ? " RTL" : " LTR"}</Text>
+        {/* <Text>{I18nManager.isRTL ? " RTL" : " LTR"}</Text> */}
         <TextInput
           mode="outlined"
           disabled={!editMode}
@@ -138,7 +142,6 @@ const TodoList = () => {
   };
   const renderTodoCard = (todo: any, index: number) => {
     const handleTodoPress = () => {
-      console.log("todo pressed");
       //pass the selected todo item as a parameter when navigating to the "Edit todo" screen
       navigation.navigate("EditTodo", { todo });
     };
@@ -252,7 +255,12 @@ const TodoList = () => {
   };
 
   return (
-    <View style={{ marginTop: 30 }}>
+    <View
+      style={{
+        marginTop: 30,
+        direction: textDirection === "ltr" ? "ltr" : "rtl",
+      }}
+    >
       <Card mode="outlined">
         <Card.Title
           title={i18n.t("homeScreen.todoList.title")}
@@ -266,6 +274,24 @@ const TodoList = () => {
     </View>
   );
 };
+
+const CustomHeader = () => {
+  const [isOnSwitch, setisOnSwitch] = useState(false);
+  const [languageSwitch, setlanguageSwitch] = useState("en");
+  const toggleSwitch = () => {
+    // isOnSwitch ? setlanguageSwitch("ar") : setlanguageSwitch("en");
+    languageSwitch === "en" ? setlanguageSwitch("ar") : setlanguageSwitch("en");
+    setisOnSwitch(!isOnSwitch);
+    // changeLanguage(languageSwitch);
+  };
+  return (
+    <Appbar.Header mode="small">
+      <Appbar.Content title={i18n.t("homeScreen.title")} />
+      <Text>{languageSwitch}</Text>
+      <Switch value={isOnSwitch} onValueChange={toggleSwitch} />
+    </Appbar.Header>
+  );
+};
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -273,6 +299,7 @@ const HomeScreen = () => {
   }, []);
   return (
     <ScrollView>
+      <CustomHeader />
       <View
         style={{
           flex: 1,

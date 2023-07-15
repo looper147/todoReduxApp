@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 
 //to access passed todo object from the home screen
 import { useRoute, useIsFocused } from "@react-navigation/native";
+
 import { updateTodo } from "../store/features/todoSlice";
+
 import { textDirection } from "../services/i18n/i18n";
 
 interface Todo {
@@ -14,7 +16,6 @@ interface Todo {
   id: number;
 }
 const EditTodoScreen = () => {
-  // const todos = useAppSelector((state) => state.todo.todos);
   const route = useRoute();
   const todo = route.params?.todo as Todo;
   const [editTodo, setEditTodo] = useState(todo?.text || "");
