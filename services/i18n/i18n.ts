@@ -1,8 +1,8 @@
 // npx expo install expo-localization i18n-js
 import { getLocales } from "expo-localization";
 import { I18n } from "i18n-js";
-import en from "../../lang/en";
-import ar from "../../lang/ar";
+import en from "../../lang/en.json";
+import ar from "../../lang/ar.json";
 export const deviceLanguage = getLocales()[0].languageCode;
 export const textDirection = getLocales()[0].textDirection;
 export const i18n = new I18n({ en, ar });

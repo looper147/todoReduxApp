@@ -36,7 +36,7 @@ const AddTodo = () => {
   const dispatch = useAppDispatch();
   const handleNewTodo = () => {
     setEditMode(!editMode);
-    switchLang();
+    // switchLang();
   };
 
   const handleCancel = () => {
@@ -57,7 +57,12 @@ const AddTodo = () => {
         dispatch(saveTodo(newTodo));
       } else {
         setValidTodo(false);
-        setHelperText(i18n.t("homeScreen.helperText.shortError"));
+        setHelperText(
+          i18n.t("homeScreen.helperText.shortError", { minLength: 5 })
+        );
+        console.log(
+          i18n.t("homeScreen.helperText.shortError", { minLength: 5 })
+        );
       }
     } else {
       setValidTodo(false);
