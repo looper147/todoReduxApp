@@ -30,6 +30,7 @@ import { i18n } from "./services/i18n/i18n";
 
 //nav stack
 const Stack = createStackNavigator();
+
 export default function App() {
   return (
     <SafeAreaProvider>

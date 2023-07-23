@@ -26,6 +26,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 //internationalization tools
 import { i18n, textDirection } from "../services/i18n/i18n";
 
+//new todo form
 const AddTodo = () => {
   const [newTodo, setNewTodo] = useState("");
   const [validTodo, setValidTodo] = useState(true);
@@ -34,6 +35,7 @@ const AddTodo = () => {
 
   //use our app dispatch
   const dispatch = useAppDispatch();
+
   const handleNewTodo = () => {
     setEditMode(!editMode);
     // switchLang();
@@ -80,7 +82,6 @@ const AddTodo = () => {
         titleVariant="titleLarge"
       />
       <Card.Content>
-        {/* <Text>{I18nManager.isRTL ? " RTL" : " LTR"}</Text> */}
         <TextInput
           mode="outlined"
           disabled={!editMode}
@@ -119,15 +120,19 @@ type RootStackParamList = {
   Home: undefined;
   EditTodo: { todo: any };
 };
-//list of todos
+
+//displaying the list of todos
 const TodoList = () => {
   const isRTL = textDirection === "rtl";
+
   //in order to fetch our list of todos from our store,we have to use `use` app selector
   const todos = useAppSelector((state) => state.todo.todos);
 
   const dispatch = useAppDispatch();
+
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+  //when the check button is pressed
   const setComplete = (id: number, complete: boolean) => {
     dispatch(updateTodo({ id: id, updates: { completed: complete } }));
   };
@@ -136,6 +141,8 @@ const TodoList = () => {
     console.log("Delete clicked");
     dispatch(deleteTodo(id));
   };
+
+  //todo card component, takes todo object and index to be used later in an iteration
   const renderTodoCard = (todo: any, index: number) => {
     const handleTodoPress = () => {
       //pass the selected todo item as a parameter when navigating to the "Edit todo" screen
@@ -143,8 +150,10 @@ const TodoList = () => {
     };
     return (
       //todo item
+      //swipeable to show delete button when the user swipes the todo card
       <Swipeable
         key={index}
+        //show the delete button on the left in rtl settings
         renderLeftActions={() => {
           if (isRTL) {
             return (
@@ -167,6 +176,7 @@ const TodoList = () => {
             return null;
           }
         }}
+        //show the delete button on the right in ltr settings
         renderRightActions={() => {
           if (!isRTL) {
             return (
@@ -197,9 +207,9 @@ const TodoList = () => {
             direction: textDirection === "ltr" ? "ltr" : "rtl",
           }}
         >
+          {/*indivdual todo card*/}
           <Card mode="elevated" key={index}>
             <Card.Content>
-              {/*nested card*/}
               <List.Item
                 style={{ padding: 20 }}
                 title={
@@ -261,7 +271,7 @@ const TodoList = () => {
           titleVariant="titleLarge"
         />
         <Card.Content>
-          {/*nested card*/}
+          {/*iterate through the fetched todos and display them in a todo component*/}
           {todos.map((todo: any, index: number) => renderTodoCard(todo, index))}
         </Card.Content>
       </Card>
