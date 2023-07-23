@@ -7,7 +7,6 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  I18nManager,
 } from "react-native";
 import { Appbar, List, Switch, TextInput } from "react-native-paper";
 import { Button, Card } from "react-native-paper";
@@ -25,11 +24,8 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 //internationalization tools
-import { i18n, setLanguage, textDirection } from "../services/i18n/i18n";
+import { i18n, textDirection } from "../services/i18n/i18n";
 
-const changeLanguage = (lang: string) => {
-  setLanguage(lang);
-};
 const AddTodo = () => {
   const [newTodo, setNewTodo] = useState("");
   const [validTodo, setValidTodo] = useState(true);
@@ -154,7 +150,6 @@ const TodoList = () => {
             return (
               <View
                 style={{
-                  // backgroundColor: "red",
                   justifyContent: "center",
                   alignItems: "center",
                 }}
@@ -177,7 +172,6 @@ const TodoList = () => {
             return (
               <View
                 style={{
-                  // backgroundColor: "red",
                   justifyContent: "center",
                   alignItems: "center",
                 }}
@@ -279,10 +273,8 @@ const CustomHeader = () => {
   const [isOnSwitch, setisOnSwitch] = useState(false);
   const [languageSwitch, setlanguageSwitch] = useState("en");
   const toggleSwitch = () => {
-    // isOnSwitch ? setlanguageSwitch("ar") : setlanguageSwitch("en");
     languageSwitch === "en" ? setlanguageSwitch("ar") : setlanguageSwitch("en");
     setisOnSwitch(!isOnSwitch);
-    // changeLanguage(languageSwitch);
   };
   return (
     <Appbar.Header mode="small">
